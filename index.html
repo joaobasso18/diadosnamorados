@@ -10,55 +10,69 @@
     crossorigin=""
   />
   <style>
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
       font-family: 'Arial Rounded MT Bold', sans-serif;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      color: #333;
+      color: white;
       text-align: center;
       overflow-x: hidden;
       transition: background-image 1s ease-in-out;
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
+      background-color: #000; /* cor de fundo enquanto carrega a imagem */
+      min-height: 100vh;
     }
+
     header {
       padding: 30px 20px 10px;
       font-size: 2em;
       animation: fadeIn 2s ease-out;
-      color: white; /* cor branca */
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      color: white;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
     }
+
     section {
       padding: 20px;
     }
+
     .mensagem {
-      background: #fff8;
+      background: rgba(255, 255, 255, 0.8);
       border-radius: 20px;
       padding: 20px;
-      margin: 20px;
+      margin: 20px auto;
       font-size: 1em;
       line-height: 1.6em;
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
       text-align: left;
       white-space: pre-wrap;
+      color: #333;
     }
+
     #tempo {
       font-size: 1.5em;
       margin-top: 20px;
-      color: white; /* cor branca */
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+      color: white;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
     }
+
     iframe {
       display: none;
     }
+
     #map {
       height: 400px;
       margin: 20px auto;
       border-radius: 15px;
       max-width: 600px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
     }
+
     button {
       margin: 15px;
       padding: 10px 20px;
@@ -69,7 +83,13 @@
       font-size: 1em;
       cursor: pointer;
       user-select: none;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
     }
+    button:hover {
+      background-color: #ff4f70;
+    }
+
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(-20px);}
       to {opacity: 1; transform: translateY(0);}
@@ -108,36 +128,38 @@ Com todo o meu amor, João.
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
-    // Imagens do slideshow
+    // Lista das imagens do fundo
     const imagens = [
-      "https://i.imgur.com/wnw5Dye.jpeg",
-      "https://i.imgur.com/1wZgsH5.jpeg",
-      "https://i.imgur.com/NQkqMNp.jpeg",
-      "https://i.imgur.com/5v2hjO6.jpeg",
-      "https://i.imgur.com/AGKjOKN.jpeg",
-      "https://i.imgur.com/b5L3bAX.jpeg",
-      "https://i.imgur.com/uDyEEbV.jpeg",
-      "https://i.imgur.com/8Wpppz5.jpeg",
-      "https://i.imgur.com/R5qz8e9.jpeg",
-      "https://i.imgur.com/czRUvW9.jpeg",
-      "https://i.imgur.com/MC7iRW3.jpeg",
-      "https://i.imgur.com/ijpgPlq.jpeg",
-      "https://i.imgur.com/PHMY05Z.jpeg",
-      "https://i.imgur.com/lmIKAoD.jpeg",
-      "https://i.imgur.com/Vtq45KJ.jpeg",
-      "https://i.imgur.com/Bh7Nyir.jpeg",
-      "https://i.imgur.com/ieGKvNk.jpeg",
-      "https://i.imgur.com/GaUSyca.jpeg"
+      'https://i.imgur.com/wnw5Dye.jpeg',
+      'https://i.imgur.com/1wZgsH5.jpeg',
+      'https://i.imgur.com/NQkqMNp.jpeg',
+      'https://i.imgur.com/5v2hjO6.jpeg',
+      'https://i.imgur.com/AGKjOKN.jpeg',
+      'https://i.imgur.com/b5L3bAX.jpeg',
+      'https://i.imgur.com/uDyEEbV.jpeg',
+      'https://i.imgur.com/8Wpppz5.jpeg',
+      'https://i.imgur.com/R5qz8e9.jpeg',
+      'https://i.imgur.com/czRUvW9.jpeg',
+      'https://i.imgur.com/MC7iRW3.jpeg',
+      'https://i.imgur.com/ijpgPlq.jpeg',
+      'https://i.imgur.com/PHMY05Z.jpeg',
+      'https://i.imgur.com/lmIKAoD.jpeg',
+      'https://i.imgur.com/Vtq45KJ.jpeg',
+      'https://i.imgur.com/Bh7Nyir.jpeg',
+      'https://i.imgur.com/ieGKvNk.jpeg',
+      'https://i.imgur.com/GaUSyca.jpeg'
     ];
 
-    let indice = 0;
-    function trocarFundo() {
-      document.body.style.backgroundImage = `url('${imagens[indice]}')`;
-      indice++;
-      if (indice >= imagens.length) indice = 0;
+    let indiceAtual = 0;
+
+    function mudarFundo() {
+      document.body.style.backgroundImage = `url('${imagens[indiceAtual]}')`;
+      indiceAtual = (indiceAtual + 1) % imagens.length;
     }
-    setInterval(trocarFundo, 7000);
-    trocarFundo();
+
+    mudarFundo(); // primeira imagem já na carga
+
+    setInterval(mudarFundo, 5000); // troca a cada 5 segundos
 
     document.addEventListener('DOMContentLoaded', () => {
       // Temporizador desde 18/08/2024 às 12:00
