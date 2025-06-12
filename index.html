@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para o amor da minha vida 💖</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin=""
+  />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial Rounded MT Bold', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      color: #333;
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+      z-index: 0;
+    }
+    header {
+      padding: 30px 20px 10px;
+      font-size: 2em;
+      animation: fadeIn 2s ease-out;
+      position: relative;
+      z-index: 2;
+    }
+    section {
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .mensagem {
+      background: #fff8;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px;
+      font-size: 1em;
+      line-height: 1.6em;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      white-space: pre-wrap;
+      position: relative;
+      z-index: 2;
+    }
+    #tempo {
+      font-size: 1.5em;
+      margin-top: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    iframe {
+      display: none;
+    }
+    #map {
+      height: 400px;
+      margin: 20px auto;
+      border-radius: 15px;
+      max-width: 600px;
+      position: relative;
+      z-index: 2;
+    }
+    button {
+      margin: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ff6f91;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    /* Fundo slideshow */
+    #fundo-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center center;
+      transition: background-image 1.5s ease-in-out;
+      filter: brightness(0.7); /* escurece um pouco para destacar texto */
+    }
+  </style>
+</head>
+<body>
+  <div id="fundo-slideshow"></div>
+
+  <header>Para o amor da minha vida 💖</header>
+  
+  <section>
+    <div class="mensagem" id="mensagem">
+Meu amor,
+
+Hoje é o Dia dos Namorados, mas para mim, todos os dias são uma celebração do amor que sinto por você. É como se Deus tivesse criado você especialmente para mim, para iluminar minha vida com seu sorriso radiante e seu olhar doce. Cada momento ao seu lado é um presente precioso, uma bênção que eu não canso de agradecer.
+
+Você tem o dom de transformar os momentos mais simples em memórias inesquecíveis, e isso é um milagre que eu admiro e amo profundamente. Seu jeito de ser, sua alegria contagiante, sua compaixão... tudo em você me inspira a ser uma pessoa melhor, a amar mais e a viver mais intensamente.
+
+Você é meu lar, meu porto seguro, meu refúgio. É você quem me faz sentir completo, quem me ama do jeito que sou, com todos os meus defeitos e virtudes. Você foi a escolhida a dedo pela Virgem Maria para minha vida, uma fonte de inspiração e de amor puro.
+
+Obrigado por estar comigo, por me escolher todos os dias, por me fazer sentir que sou o homem mais sortudo do mundo. Você torna meu mundo mais bonito só por existir nele, e eu sou eternamente grato por isso.
+
+Que venham muitos Dias dos Namorados juntos, mas não apenas como namorados... como marido e mulher, como parceiros de vida. Quero passar o resto da minha vida ao seu lado, celebrando o amor que sentimos um pelo outro.
+
+Te amo com tudo que sou, com todo o meu coração, com toda a minha alma. Você é a razão pela qual eu acordo todos os dias com um sorriso no rosto e um canto no coração. Eu te amo, meu amor, agora e para sempre.
+
+Com todo o meu amor, João.
+    </div>
+    
+    <button onclick="toggleMusic()">Tocar / Pausar música</button>
+    <iframe id="musica" width="1" height="1" src="https://www.youtube.com/embed/U4i_pEsQFz4?autoplay=1&loop=1&playlist=U4i_pEsQFz4" frameborder="0" allow="autoplay"></iframe>
+
+    <div id="tempo"></div>
+
+    <div id="map"></div>
+  </section>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Temporizador desde 18/08/2024 às 12:00
+      const inicio = new Date('2024-08-18T12:00:00');
+      const tempoDiv = document.getElementById('tempo');
+      
+      function atualizarTempo() {
+        const agora = new Date();
+        const diff = agora - inicio;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diff / (1000 * 60)) % 60);
+        const segundos = Math.floor((diff / 1000) % 60);
+        tempoDiv.innerHTML = `Estamos juntos há <strong>${dias}</strong> dias, <strong>${horas}</strong> horas, <strong>${minutos}</strong> minutos e <strong>${segundos}</strong> segundos 💕`;
+      }
+      setInterval(atualizarTempo, 1000);
+      atualizarTempo();
+
+      // Música
+      const musica = document.getElementById('musica');
+      let tocando = true;
+      window.toggleMusic = function() {
+        if (tocando) {
+          musica.src = '';
+          tocando = false;
+        } else {
+          musica.src = 'https://www.youtube.com/embed/U4i_pEsQFz4?autoplay=1&loop=1&playlist=U4i_pEsQFz4';
+          tocando = true;
+        }
+      };
+
+      // Mapa Leaflet
+      const lugares = [
+        { nome: 'Maringá - PR', lat: -23.420999, lng: -51.933055 },
+        { nome: 'Pomerode - SC', lat: -26.7383, lng: -49.1766 },
+        { nome: 'Ilha do Mel - PR', lat: -25.5315, lng: -48.3037 },
+        { nome: 'Serra Negra - SP', lat: -22.6136, lng: -46.7032 },
+        { nome: 'Aparecida - SP', lat: -22.8495, lng: -45.2325 },
+        { nome: 'São Roque - SP', lat: -23.5223, lng: -47.1361 },
+        { nome: 'Amparo - SP', lat: -22.7085, lng: -46.7645 },
+        { nome: 'Lunardeli - PR', lat: -24.0819, lng: -51.7659 }
+      ];
+
+      const map = L.map('map').setView([-23.5, -47], 5);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      lugares.forEach(lugar => {
+        const marker = L.marker([lugar.lat, lugar.lng]).addTo(map);
+        marker.bindPopup(`<strong>${lugar.nome}</strong><br><em>Adicione uma foto aqui futuramente</em>`);
+      });
+    });
+
+    // Slideshow fundo com fade via JS
+    const imagens = [
+      "https://i.imgur.com/wnw5Dye.jpeg",
+      "https://i.imgur.com/1wZgsH5.jpeg",
+      "https://i.imgur.com/NQkqMNp.jpeg",
+      "https://i.imgur.com/5v2hjO6.jpeg",
+      "https://i.imgur.com/AGKjOKN.jpeg",
+      "https://i.imgur.com/b5L3bAX.jpeg",
+      "https://i.imgur.com/uDyEEbV.jpeg",
+      "https://i.imgur.com/8Wpppz5.jpeg",
+      "https://i.imgur.com/R5qz8e9.jpeg",
+      "https://i.imgur.com/czRUvW9.jpeg",
+      "https://i.imgur.com/MC7iRW3.jpeg",
+      "https://i.imgur.com/ijpgPlq.jpeg",
+      "https://i.imgur.com/PHMY05Z.jpeg",
+      "https://i.imgur.com/lmIKAoD.jpeg",
+      "https://i.imgur.com/Vtq45KJ.jpeg",
+      "https://i.imgur.com/Bh7Nyir.jpeg",
+      "https://i.imgur.com/ieGKvNk.jpeg",
+      "https://i.imgur.com/GaUSyca.jpeg"
+    ];
+
+    const fundo = document.getElementById('fundo-slideshow');
+    let index = 0;
+
+    function mudarImagem() {
+      fundo.style.backgroundImage = `url(${imagens[index]})`;
+      index = (index + 1) % imagens.length;
+    }
+
+    mudarImagem(); // exibe a primeira logo
+    setInterval(mudarImagem, 6000); // troca a cada 6 segundos
+  </script>
+</body>
+</html>
