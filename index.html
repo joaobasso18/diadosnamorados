@@ -17,20 +17,19 @@
       color: #333;
       text-align: center;
       overflow-x: hidden;
-      position: relative;
-      z-index: 0;
+      transition: background-image 1s ease-in-out;
+      background-size: cover;
+      background-position: center;
     }
     header {
       padding: 30px 20px 10px;
       font-size: 2em;
       animation: fadeIn 2s ease-out;
-      position: relative;
-      z-index: 2;
+      color: white; /* cor branca */
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     }
     section {
       padding: 20px;
-      position: relative;
-      z-index: 2;
     }
     .mensagem {
       background: #fff8;
@@ -44,14 +43,12 @@
       margin-right: auto;
       text-align: left;
       white-space: pre-wrap;
-      position: relative;
-      z-index: 2;
     }
     #tempo {
       font-size: 1.5em;
       margin-top: 20px;
-      position: relative;
-      z-index: 2;
+      color: white; /* cor branca */
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
     }
     iframe {
       display: none;
@@ -61,8 +58,6 @@
       margin: 20px auto;
       border-radius: 15px;
       max-width: 600px;
-      position: relative;
-      z-index: 2;
     }
     button {
       margin: 15px;
@@ -74,31 +69,14 @@
       font-size: 1em;
       cursor: pointer;
       user-select: none;
-      position: relative;
-      z-index: 2;
     }
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(-20px);}
       to {opacity: 1; transform: translateY(0);}
     }
-    /* Fundo slideshow */
-    #fundo-slideshow {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background-size: cover;
-      background-position: center center;
-      transition: background-image 1.5s ease-in-out;
-      filter: brightness(0.7); /* escurece um pouco para destacar texto */
-    }
   </style>
 </head>
 <body>
-  <div id="fundo-slideshow"></div>
-
   <header>Para o amor da minha vida 💖</header>
   
   <section>
@@ -130,6 +108,37 @@ Com todo o meu amor, João.
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
+    // Imagens do slideshow
+    const imagens = [
+      "https://i.imgur.com/wnw5Dye.jpeg",
+      "https://i.imgur.com/1wZgsH5.jpeg",
+      "https://i.imgur.com/NQkqMNp.jpeg",
+      "https://i.imgur.com/5v2hjO6.jpeg",
+      "https://i.imgur.com/AGKjOKN.jpeg",
+      "https://i.imgur.com/b5L3bAX.jpeg",
+      "https://i.imgur.com/uDyEEbV.jpeg",
+      "https://i.imgur.com/8Wpppz5.jpeg",
+      "https://i.imgur.com/R5qz8e9.jpeg",
+      "https://i.imgur.com/czRUvW9.jpeg",
+      "https://i.imgur.com/MC7iRW3.jpeg",
+      "https://i.imgur.com/ijpgPlq.jpeg",
+      "https://i.imgur.com/PHMY05Z.jpeg",
+      "https://i.imgur.com/lmIKAoD.jpeg",
+      "https://i.imgur.com/Vtq45KJ.jpeg",
+      "https://i.imgur.com/Bh7Nyir.jpeg",
+      "https://i.imgur.com/ieGKvNk.jpeg",
+      "https://i.imgur.com/GaUSyca.jpeg"
+    ];
+
+    let indice = 0;
+    function trocarFundo() {
+      document.body.style.backgroundImage = `url('${imagens[indice]}')`;
+      indice++;
+      if (indice >= imagens.length) indice = 0;
+    }
+    setInterval(trocarFundo, 7000);
+    trocarFundo();
+
     document.addEventListener('DOMContentLoaded', () => {
       // Temporizador desde 18/08/2024 às 12:00
       const inicio = new Date('2024-08-18T12:00:00');
@@ -183,39 +192,6 @@ Com todo o meu amor, João.
         marker.bindPopup(`<strong>${lugar.nome}</strong><br><em>Adicione uma foto aqui futuramente</em>`);
       });
     });
-
-    // Slideshow fundo com fade via JS
-    const imagens = [
-      "https://i.imgur.com/wnw5Dye.jpeg",
-      "https://i.imgur.com/1wZgsH5.jpeg",
-      "https://i.imgur.com/NQkqMNp.jpeg",
-      "https://i.imgur.com/5v2hjO6.jpeg",
-      "https://i.imgur.com/AGKjOKN.jpeg",
-      "https://i.imgur.com/b5L3bAX.jpeg",
-      "https://i.imgur.com/uDyEEbV.jpeg",
-      "https://i.imgur.com/8Wpppz5.jpeg",
-      "https://i.imgur.com/R5qz8e9.jpeg",
-      "https://i.imgur.com/czRUvW9.jpeg",
-      "https://i.imgur.com/MC7iRW3.jpeg",
-      "https://i.imgur.com/ijpgPlq.jpeg",
-      "https://i.imgur.com/PHMY05Z.jpeg",
-      "https://i.imgur.com/lmIKAoD.jpeg",
-      "https://i.imgur.com/Vtq45KJ.jpeg",
-      "https://i.imgur.com/Bh7Nyir.jpeg",
-      "https://i.imgur.com/ieGKvNk.jpeg",
-      "https://i.imgur.com/GaUSyca.jpeg"
-    ];
-
-    const fundo = document.getElementById('fundo-slideshow');
-    let index = 0;
-
-    function mudarImagem() {
-      fundo.style.backgroundImage = `url(${imagens[index]})`;
-      index = (index + 1) % imagens.length;
-    }
-
-    mudarImagem(); // exibe a primeira logo
-    setInterval(mudarImagem, 6000); // troca a cada 6 segundos
   </script>
 </body>
 </html>
